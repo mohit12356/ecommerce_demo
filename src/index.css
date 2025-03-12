@@ -1,0 +1,7 @@
+@import "@fontsource/roboto"; /* For Roboto */
+@import "@fontsource/lato"; /* For Lato */
+@import "@fontsource/poppins"; /* For Poppins */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
