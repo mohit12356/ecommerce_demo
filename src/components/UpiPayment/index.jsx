@@ -1,63 +1,80 @@
-// import React, { useState } from "react";
-// import { useNavigate, useLocation } from "react-router-dom";
-// import QrScanner from "react-qr-scanner";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Html5QrcodeScanner } from "html5-qrcode";
+import { QRCodeCanvas } from "qrcode.react"; 
 
-// const UpiPayment = () => {
-//   const location = useLocation();
-//   const navigate = useNavigate();
+const UpiPayment = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-//   const totalAmount = location.state?.totalAmount || 0;
-//   const [qrResult, setQrResult] = useState(null);
-//   const [error, setError] = useState(null);
+  const totalAmount = location.state?.totalAmount || 0;
+  const [qrResult, setQrResult] = useState(null);
+  const [error, setError] = useState(null);
 
-//   const handleScan = (data) => {
-//     if (data) {
-//       setQrResult(data.text || data);
-//       alert(`QR Code Scanned: ${data.text || data}`);
-//       // navigate("/payment-success", { state: { totalAmount } });
-//     }
-//   };
+  // 🔁 Replace this with your real UPI ID
+  const upiId = "7397260670@ptaxis"; // <-- YOUR UPI ID
+  const name = "Mohit Kumar Kolli"; // Your name
 
-//   const handleError = (err) => {
-//     console.error(err);
-//     setError("Error scanning QR code. Please try again.");
-//   };
+  const qrValue = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
+    name
+  )}&am=${totalAmount}&cu=INR`;
 
-//   const previewStyle = {
-//     height: 240,
-//     width: 320,
-//   };
+  useEffect(() => {
+    const scanner = new Html5QrcodeScanner("qr-reader", {
+      fps: 10,
+      qrbox: { width: 250, height: 250 },
+    });
 
-//   return (
-//     <div className="p-6">
-//       <h2 className="text-2xl font-bold mb-4">UPI Payment</h2>
-//       <p className="text-lg mb-4">
-//         Scan the QR code to pay Rs.{" "}
-//         <span className="font-bold">{totalAmount}</span>
-//       </p>
+    scanner.render(
+      (decodedText) => {
+        setQrResult(decodedText);
+        alert(`QR Code Scanned: ${decodedText}`);
+        scanner.clear();
+      },
+      (errMsg) => {
+        console.warn("QR Scan Error:", errMsg);
+        setError("Error scanning QR code. Please try again.");
+      }
+    );
 
-//       <div className="mb-4">
-//         <QrScanner
-//           delay={300}
-//           style={previewStyle}
-//           onError={handleError}
-//           onScan={handleScan}
-//         />
-//       </div>
+    return () => {
+      scanner
+        .clear()
+        .catch((err) => console.error("Failed to clear scanner", err));
+    };
+  }, []);
 
-//       {qrResult && (
-//         <p className="text-green-500 text-sm">Scanned QR Code: {qrResult}</p>
-//       )}
-//       {error && <p className="text-red-500 text-sm">{error}</p>}
+  return (
+    <div className="p-6">
+      <h2 className="text-2xl font-bold mb-4">UPI Payment</h2>
+      <p className="text-lg mb-4">
+        Scan this QR code to pay{" "}
+        <span className="font-bold">Rs. {totalAmount}</span>
+      </p>
 
-//       <button
-//         onClick={() => navigate("/checkout")}
-//         className="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
-//       >
-//         Back to Checkout
-//       </button>
-//     </div>
-//   );
-// };
+      {/* UPI QR Code */}
+      <div className="mb-6">
+        <QRCodeCanvas value={qrValue} size={200} />
+        <p className="text-sm text-gray-500 mt-2">UPI ID: {upiId}</p>
+      </div>
 
-// export default UpiPayment;
+      {/* QR Scanner (optional) */}
+      {/* <h3 className="text-xl font-semibold mb-2">Scan a QR Code</h3> */}
+      <div id="qr-reader" className="mb-4" style={{ width: "320px" }}></div>
+
+      {qrResult && (
+        <p className="text-green-600 text-sm">Scanned QR Code: {qrResult}</p>
+      )}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+
+      <button
+        onClick={() => navigate("/checkout")}
+        className="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
+      >
+        Back to Checkout
+      </button>
+    </div>
+  );
+};
+
+export default UpiPayment;

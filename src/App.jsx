@@ -6,7 +6,7 @@ import Login from "./pages/LoginPage";
 import ProductDetail from "./pages/ProductDetailPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckOut";
-// import UpiPayment from "./components/UpiPayment";
+import UpiPayment from "./components/UpiPayment";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { auth } from "../firebase";
@@ -67,7 +67,7 @@ const App = () => {
           path="/checkout"
           element={<CheckoutPage cartItems={cartItems} user={user} />}
         />
-        {/* <Route path="payment/upi" element={< UpiPayment />} /> */}
+        <Route path="payment/upi" element={< UpiPayment />} />
       </Routes>
     </>
   );

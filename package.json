@@ -12,6 +12,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@babel/runtime": "^7.27.6",
     "@fontsource/lato": "^5.1.0",
     "@fontsource/poppins": "^5.1.0",
     "@fontsource/roboto": "^5.1.0",
@@ -19,7 +20,9 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "firebase": "^11.1.0",
+    "html5-qrcode": "^2.3.8",
     "oracledb": "^6.7.1",
+    "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-fast-marquee": "^1.6.5",
