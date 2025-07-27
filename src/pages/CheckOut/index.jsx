@@ -50,11 +50,7 @@ const CheckoutPage = ({ cartItems, user }) => {
   };
   if(!user){
     alert("please login to continue")
-    navigate("/login",{
-      state:{
-        from:"/checkout"
-      }
-    });
+    navigate("/login");
     return;
   }
 
