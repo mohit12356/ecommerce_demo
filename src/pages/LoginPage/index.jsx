@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { login, signup } from "../../../firebase";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,9 @@ const LoginPage = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
+  const location = useLocation();
+
+  const fromPath = location.state?.from || "/shop"; 
 
   const validateEmail = (email) => {
     const emailValidate = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,20 +28,16 @@ const LoginPage = () => {
     e.preventDefault();
 
     const newErrors = {};
-
     if (!validateEmail(email)) {
       newErrors.email = "Please enter a valid email";
     }
-
     if (!validatePassword(password)) {
       newErrors.password =
         "Password must contain at least one capital letter, one special character, and be at least 9 characters long.";
     }
-
     if (isSignUp && !name) {
       newErrors.name = "Name is required for sign up";
     }
-
     if (Object.keys(newErrors).length > 0) {
       return;
     }
@@ -49,17 +47,18 @@ const LoginPage = () => {
     try {
       if (isSignUp) {
         await signup(name, email, password);
-        navigate("/shop");
+        toast.success("Sign up successful!");
+        navigate(fromPath); 
       } else {
-        // console.log("Attempting to log in with:", email, password);
         const res = await login(email, password);
-        console.log("Login successful:", res);
         if (res) {
-          navigate("/shop");
+          toast.success("Login successful!");
+          navigate(fromPath); 
         }
       }
     } catch (error) {
-      console.error("Authentication error:", error);
+      console.error("Authentication error:", error.message);
+      toast.error(error.message || "Authentication failed.");
     } finally {
       setLoading(false);
     }

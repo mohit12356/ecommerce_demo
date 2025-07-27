@@ -48,6 +48,15 @@ const CheckoutPage = ({ cartItems, user }) => {
     if (!formData.postalCode) errors.postalCode = "Postal Code is required.";
     return errors;
   };
+  if(!user){
+    alert("please login to continue")
+    navigate("/login",{
+      state:{
+        from:"/checkout"
+      }
+    });
+    return;
+  }
 
   const handleCheckout = async (e) => {
     e.preventDefault();

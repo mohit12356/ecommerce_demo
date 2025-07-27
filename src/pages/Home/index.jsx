@@ -52,29 +52,29 @@ const Home = () => {
           direction="left"
         >
           <img
-            src="https://via.placeholder.com/150"
-            alt="Placeholder 4"
-            className="mx-4"
+            src="public/images/img1.webp"
+            alt="Placeholder 1"
+            className="mx-4  w-40 "
           />
           <img
-            src="https://via.placeholder.com/150"
-            alt="Placeholder 4"
-            className="mx-4"
+            src="public/images/img2.avif"
+            alt="Placeholder 2"
+            className="mx-4 h-40 w-40 "
           />
           <img
-            src="https://via.placeholder.com/150"
-            alt="Placeholder 4"
-            className="mx-4"
+            src="public/images/img3.jpg"
+            alt="Placeholder 3"
+            className="mx-4 w-40 "
           />
           <img
-            src="https://via.placeholder.com/150"
+            src="public/images/img4.png "
             alt="Placeholder 4"
-            className="mx-4"
+            className="mx-4  w-40  "
           />
           <img
-            src="https://via.placeholder.com/150"
-            alt="Placeholder 4"
-            className="mx-4"
+            src="public/images/img5.jpg"
+            alt="Placeholder 5"
+            className="mx-4  w-40 "
           />
         </Marquee>
       </div>
